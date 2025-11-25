@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "n/VAGKVJFek=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Vanya\\source\\repos\\AutoPartsStore\\AutoPartsStore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vanya\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\microsoft.visualstudio.azure.containers.tools.targets.1.22.1.nupkg.sha512"
+  ],
+  "logs": []
+}

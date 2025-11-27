@@ -1,83 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoPartsStore.Data;
+using AutoPartsStore.Models;
+using AutoPartsStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace AutoPartsStore.Controllers
+public class ProductsController : Controller
 {
-    public class ProductsController : Controller
+    private readonly AppDbContext _context;
+    private const int PageSize = 20;
+
+    public ProductsController(AppDbContext context)
     {
-        // GET: ProductsController
-        public ActionResult Index()
-        {
-            return View();
-        }
+        _context = context;
+    }
 
-        // GET: ProductsController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+    // GET: /Products?page=1&categoryId=3
+    public async Task<IActionResult> Index(int page = 1, int? categoryId = null)
+    {
+        IQueryable<Product> query = _context.Products
+            .Include(p => p.Category);
 
-        // GET: ProductsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        // Фильтрация по категории
+        if (categoryId != null)
+            query = query.Where(p => p.CategoryId == categoryId);
 
-        // POST: ProductsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        // Подсчёт общего количества
+        int totalCount = await query.CountAsync();
 
-        // GET: ProductsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        // Постраничный вывод
+        var products = await query
+            .OrderBy(p => p.Id)
+            .Skip((page - 1) * PageSize)
+            .Take(PageSize)
+            .ToListAsync();
 
-        // POST: ProductsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // Формируем модель для View
+        var viewModel = new ProductsListViewModel
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            Products = products,
+            CurrentPage = page,
+            TotalItems = totalCount,
+            PageSize = PageSize,
+            SelectedCategoryId = categoryId
+        };
 
-        // GET: ProductsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        return View(viewModel);
     }
 }

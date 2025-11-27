@@ -1,7 +1,10 @@
-﻿namespace AutoPartsStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoPartsStore.Models
 {
     public class User
     {
+        [Key]
         public int UserID { get; set; }
         public required string FullName { get; set; }
         public required string Email { get; set; }

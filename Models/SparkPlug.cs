@@ -1,7 +1,10 @@
-﻿namespace AutoPartsStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoPartsStore.Models
 {
     public class SparkPlug
     {
+        [Key]
         public int ProductID { get; set; }
         public string ThreadSize { get; set; }
         public string ElectrodeMaterial { get; set; }

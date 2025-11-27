@@ -1,4 +1,5 @@
 ﻿using AutoPartsStore.Data;
+using AutoPartsStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 public class CategoryController : Controller

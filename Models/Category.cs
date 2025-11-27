@@ -1,8 +1,11 @@
-﻿namespace AutoPartsStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoPartsStore.Models
 {
-    public class Categories
+    public class Category
     {
-        public int CategoriesID { get; set; }
-        public required string CategoriesName { get; set; }
+        [Key]
+        public int CategoryID { get; set; }
+        public required string CategoryName { get; set; }
     }
 }

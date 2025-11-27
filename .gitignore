@@ -1,3 +1,8 @@
 # Visual Studio files
 .vs/
+
+# Build
+.obj/
+
+# VS 2022
 *.user

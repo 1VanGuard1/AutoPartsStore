@@ -1,7 +1,10 @@
-﻿namespace AutoPartsStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoPartsStore.Models
 {
     public class Wiper
     {
+        [Key]
         public int ProductID { get; set; }
         public int Length { get; set; }
         public string MountType { get; set; }

@@ -1,7 +1,10 @@
-﻿namespace AutoPartsStore.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoPartsStore.Models
 {
     public class Battery
     {
+        [Key]
         public int ProductID { get; set; }
         public int Capacity { get; set; }
         public string Polarity { get; set; }

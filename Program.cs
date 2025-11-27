@@ -1,3 +1,6 @@
+using AutoPartsStore.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace AutoPartsStore
 {
     public class Program
@@ -8,6 +11,8 @@ namespace AutoPartsStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AutoPartsStoreContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 

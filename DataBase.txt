@@ -1,0 +1,105 @@
+-- Создание базы данных
+CREATE DATABASE AutoPartsStoreDB;
+GO
+
+USE AutoPartsStoreDB;
+GO
+
+-- Таблица Categories
+CREATE TABLE Categories (
+    CategoryID INT PRIMARY KEY IDENTITY(1,1),
+    CategoryName NVARCHAR(100) NOT NULL
+);
+
+-- Таблица Users с добавленным полем Role
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    FullName NVARCHAR(100) NOT NULL,
+    PasswordHash NVARCHAR(256) NOT NULL,
+    PhoneNumber NVARCHAR(20),
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    Role NVARCHAR(50) NOT NULL DEFAULT 'Customer'
+);
+
+-- Таблица Products
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY IDENTITY(1,1),
+    CategoryID INT NOT NULL,
+    ProductName NVARCHAR(100) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Manufacturer NVARCHAR(100),
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+);
+
+-- Таблица PurchaseHistory с составным первичным ключом
+CREATE TABLE PurchaseHistory (
+    PurchaseID INT IDENTITY(1,1),
+    UserID INT NOT NULL,
+    ProductID INT NOT NULL,
+    PurchaseDate DATETIME NOT NULL DEFAULT GETDATE(),
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица Tires
+CREATE TABLE Tires (
+    ProductID INT PRIMARY KEY,
+    Width INT NOT NULL,
+    Height INT NOT NULL,
+    Diameter INT NOT NULL,
+    Season NVARCHAR(50),
+    Type NVARCHAR(50),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица BrakePads
+CREATE TABLE BrakePads (
+    ProductID INT PRIMARY KEY,
+    PadType NVARCHAR(50),
+    Compatibility NVARCHAR(200),
+    Thickness DECIMAL(5,2),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица Batteries
+CREATE TABLE Batteries (
+    ProductID INT PRIMARY KEY,
+    Capacity INT NOT NULL,
+    Polarity NVARCHAR(20),
+    WarrantyPeriod INT,
+    Voltage DECIMAL(5,2),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица Wipers с добавленным полем Material
+CREATE TABLE Wipers (
+    ProductID INT PRIMARY KEY,
+    Length INT NOT NULL,
+    MountType NVARCHAR(50),
+    Season NVARCHAR(50),
+    Material NVARCHAR(50),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица SparkPlugs с добавленными полями Gap и OilType
+CREATE TABLE SparkPlugs (
+    ProductID INT PRIMARY KEY,
+    ThreadSize NVARCHAR(20),
+    ElectrodeMaterial NVARCHAR(50),
+    HeatRange INT,
+    Gap DECIMAL(4,2),
+    OilType NVARCHAR(50),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Таблица MotorOils
+CREATE TABLE MotorOils (
+    ProductID INT PRIMARY KEY,
+    Viscosity NVARCHAR(20),
+    Volume DECIMAL(5,2),
+    ManufacturerCountry NVARCHAR(100),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);

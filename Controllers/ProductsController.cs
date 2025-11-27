@@ -1,83 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoPartsStore.Data;
+using AutoPartsStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoPartsStore.Controllers
 {
     public class ProductsController : Controller
     {
-        // GET: ProductsController
-        public ActionResult Index()
+        private readonly AutoPartsStoreContext _context;
+
+        public ProductsController(AutoPartsStoreContext context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: ProductsController/Details/5
-        public ActionResult Details(int id)
+        // Страница категории
+        public async Task<IActionResult> Category(int categoryId)
         {
-            return View();
+            var category = await _context.Categories
+                                         .FirstOrDefaultAsync(c => c.CategoryID == categoryId);
+
+            if (category == null)
+                return NotFound();
+
+            var products = await _context.Products
+                                         .Where(p => p.CategoryID == categoryId)
+                                         .ToListAsync();
+
+            ViewBag.CategoryName = category.CategoryName;
+
+            return View(products);
         }
 
-        // GET: ProductsController/Create
-        public ActionResult Create()
+
+        // Страница одного товара
+        public async Task<IActionResult> Details(int productId)
         {
-            return View();
+            var product = await _context.Products
+                                        .Include(p => p.Category)
+                                        .FirstOrDefaultAsync(p => p.ProductID == productId);
+
+            if (product == null)
+                return NotFound();
+
+            return View(product);
         }
 
-        // POST: ProductsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

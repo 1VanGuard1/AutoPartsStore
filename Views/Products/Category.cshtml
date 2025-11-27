@@ -1,0 +1,12 @@
+﻿@model IEnumerable<AutoPartsStore.Models.Product>
+
+<h2>@ViewBag.CategoryName</h2>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            @await Html.PartialAsync("_ProductCard", item)
+        </div>
+    }
+</div>

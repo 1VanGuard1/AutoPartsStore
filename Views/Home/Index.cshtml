@@ -1,8 +1,60 @@
-﻿@{
+﻿@model AutoPartsStore.Models.ViewModels.HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @{
+        ViewData["Title"] = "Автомагазин — Главная";
+    }
+
+    <div class="container mt-4">
+
+        <h2 class="mb-4">Категории товаров</h2>
+
+        <div class="row mb-5">
+            @foreach (var cat in Model.Categories)
+            {
+                <div class="col-md-3 mb-3">
+                    <a href="/Category/Products/@cat.CategoryID" class="text-decoration-none">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <h5 class="mt-2">@cat.CategoryName</h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <h2 class="mb-4">Популярные товары</h2>
+
+        <div class="row">
+            @foreach (var p in Model.Products)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@p.ProductName</h5>
+                            <p class="card-text">
+                                Производитель: @p.Manufacturer <br />
+                                Категория: @p.Category.CategoryName
+                            </p>
+                            <p class="fw-bold">Цена: @p.Price руб.</p>
+
+                            <a href="/Product/Details/@p.ProductID" class="btn btn-primary w-100">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
 </div>

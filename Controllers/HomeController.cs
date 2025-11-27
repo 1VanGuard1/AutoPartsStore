@@ -1,32 +1,37 @@
-using System.Diagnostics;
+using AutoPartsStore.Data;
 using AutoPartsStore.Models;
+using AutoPartsStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AutoPartsStore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly AutoPartsStoreContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AutoPartsStoreContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var categories = await _context.Categories.ToListAsync();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            var products = await _context.Products
+                .Include(c => c.Category)
+                .Take(12)
+                .ToListAsync();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var vm = new HomeIndexViewModel
+            {
+                Categories = categories,
+                Products = products
+            };
+
+            return View(vm);
         }
     }
 }

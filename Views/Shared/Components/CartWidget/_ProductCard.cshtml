@@ -1,0 +1,16 @@
+﻿@model AutoPartsStore.Models.Product
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>@Model.ProductName</h5>
+        <p>Цена: @Model.Price руб.</p>
+
+        <a href="/Products/Details?productId=@Model.ProductID" class="btn btn-primary">
+            Подробнее
+        </a>
+
+        <a href="/Cart/Add?productId=@Model.ProductID" class="btn btn-success">
+            В корзину
+        </a>
+    </div>
+</div>

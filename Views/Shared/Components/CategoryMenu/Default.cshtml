@@ -1,0 +1,13 @@
+﻿@model IEnumerable<AutoPartsStore.Models.Category>
+
+<ul class="nav nav-pills mb-3">
+    @foreach (var cat in Model)
+    {
+        <li class="nav-item">
+            <a class="nav-link"
+               href="/Products/Category?categoryId=@cat.CategoryID">
+                @cat.CategoryName
+            </a>
+        </li>
+    }
+</ul>

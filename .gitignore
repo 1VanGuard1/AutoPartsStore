@@ -2,7 +2,10 @@
 .vs/
 
 # Build
-.obj/
+obj/
+bin/
 
 # VS 2022
 *.user
+*.suo
+*.cache

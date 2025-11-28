@@ -3,7 +3,6 @@ using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace AutoPartsStore.Controllers
 {
@@ -21,8 +20,8 @@ namespace AutoPartsStore.Controllers
             var categories = await _context.Categories.ToListAsync();
 
             var products = await _context.Products
-                .Include(c => c.Category)
-                .Take(12)
+                .Include(p => p.Category)
+                .Take(20)
                 .ToListAsync();
 
             var vm = new HomeIndexViewModel

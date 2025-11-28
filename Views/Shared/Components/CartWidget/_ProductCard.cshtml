@@ -1,16 +1,29 @@
 ﻿@model AutoPartsStore.Models.Product
 
-<div class="card mb-3">
-    <div class="card-body">
-        <h5>@Model.ProductName</h5>
-        <p>Цена: @Model.Price руб.</p>
+<div class="product-card">
+    <img src="~/images/@Model.ProductID.jpg" alt="@Model.ProductName" class="product-image" />
 
-        <a href="/Products/Details?productId=@Model.ProductID" class="btn btn-primary">
-            Подробнее
-        </a>
+    <h3 class="product-title">@Model.ProductName</h3>
 
-        <a href="/Cart/Add?productId=@Model.ProductID" class="btn btn-success">
-            В корзину
-        </a>
+    <div class="product-manufacturer">
+        Производитель: @Model.Manufacturer
     </div>
+
+    <div class="product-price">
+        @Model.Price руб.
+    </div>
+
+    <a asp-controller="Products"
+       asp-action="Details"
+       asp-route-id="@Model.ProductID"
+       class="btn-details">
+        Подробнее
+    </a>
+
+    <form asp-controller="Cart"
+          asp-action="Add"
+          method="post">
+        <input type="hidden" name="productId" value="@Model.ProductID" />
+        <button type="submit" class="btn-buy">В корзину</button>
+    </form>
 </div>

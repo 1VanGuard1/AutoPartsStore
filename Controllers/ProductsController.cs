@@ -35,7 +35,7 @@ namespace AutoPartsStore.Controllers
                 Products = products
             };
 
-            return View(vm);
+            return View("Category", vm);
         }
 
 

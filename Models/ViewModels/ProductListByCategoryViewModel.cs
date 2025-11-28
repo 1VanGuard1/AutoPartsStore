@@ -1,6 +1,15 @@
-﻿namespace AutoPartsStore.Models.ViewModels
+﻿public class ProductListByCategoryViewModel
 {
-    public class ProductViewModel
-    {
-    }
+    public int CategoryId { get; set; }
+    public string CategoryName { get; set; }
+
+    public List<ProductItemViewModel> Products { get; set; } = new();
+}
+
+public class ProductItemViewModel
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string? ImageUrl { get; set; }
+    public decimal Price { get; set; }
 }

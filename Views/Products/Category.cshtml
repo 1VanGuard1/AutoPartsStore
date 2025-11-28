@@ -1,12 +1,14 @@
-﻿@model IEnumerable<AutoPartsStore.Models.Product>
+﻿@model AutoPartsStore.Models.ViewModels.CategoryProductsViewModel
 
-<h2>@ViewBag.CategoryName</h2>
+@{
+    ViewData["Title"] = Model.Category.CategoryName;
+}
 
-<div class="row">
-    @foreach (var item in Model)
+<h2>@Model.Category.CategoryName</h2>
+
+<div class="products-grid">
+    @foreach (var product in Model.Products)
     {
-        <div class="col-md-3">
-            @await Html.PartialAsync("_ProductCard", item)
-        </div>
+        @Html.Partial("_ProductCard", product)
     }
 </div>

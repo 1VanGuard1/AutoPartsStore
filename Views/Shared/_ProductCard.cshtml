@@ -1,17 +1,22 @@
 ﻿@model AutoPartsStore.Models.Product
 
 <div class="product-card">
-    <div class="thumb">
-        <img src="@Model.ImageUrl" alt="@Model.ProductName" />
-    </div>
+    <img src="@(Model.ImageUrl ?? "/images/no-image.png")" alt="image" />
 
-    <div class="card-body">
+    <div class="product-card-body">
         <div class="product-title">@Model.ProductName</div>
-        <div class="meta">@Model.Manufacturer</div>
-        <div class="price">@Model.Price.ToString("0.00") руб</div>
 
-        <div class="card-actions">
-            <a class="btn btn-primary btn-block" href="/Products/Details/@Model.ProductID">Подробнее</a>
+        <div class="text-muted small">
+            @Model.Manufacturer
         </div>
+
+        <div class="product-price">
+            @Model.Price руб.
+        </div>
+
+        <a href="/Products/Details/@Model.ProductID"
+           class="btn btn-primary w-100 mt-3">
+            Подробнее
+        </a>
     </div>
 </div>

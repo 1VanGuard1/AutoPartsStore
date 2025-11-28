@@ -1,5 +1,47 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model List<CartViewModelItem>
+
+<h2 class="page-title">Корзина</h2>
+
+@if (!Model.Any())
+{
+    <p>Корзина пуста.</p>
 }
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Кол-во</th>
+                <th>Цена</th>
+                <th>Сумма</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price руб.</td>
+                    <td>@(item.Product.Price* item.Quantity) руб.</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="removeItem(@item.Product.ProductID)">
+                            Удалить
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<script>
+    function removeItem(id) {
+        fetch("/Cart/Remove?productId=" + id, { method: "POST" })
+            .then(r => r.json())
+            .then(_ => location.reload());
+    }
+</script>

@@ -4,70 +4,44 @@
     ViewData["Title"] = Model.ProductName;
 }
 
-<div class="product-details mt-3">
+<h2 class="page-title">@Model.ProductName</h2>
 
-    <div class="gallery">
-        <div class="no-image">
+<div class="product-details-grid">
+
+    <div class="details-box">
+        <div class="details-image">
             Фото отсутствует
         </div>
     </div>
 
-    <div class="info">
+    <div class="details-box">
 
-        <h2 class="mb-2">@Model.ProductName</h2>
+        <h2>@Model.ProductName</h2>
 
         <div class="mb-2 text-muted">
             Производитель: <strong>@Model.Manufacturer</strong>
         </div>
 
-        <div class="mb-3 text-muted">
+        <div class="mb-2 text-muted">
             Категория: <strong>@Model.Category.CategoryName</strong>
         </div>
 
-        <div class="price mb-3" style="font-size:26px; font-weight:900;">
+        <div class="product-price mb-3">
             @Model.Price руб.
         </div>
 
-        <a class="btn btn-primary btn-block mt-3" href="#">
+        <p class="mb-4">
+            @Model.Description
+        </p>
+
+        <button class="btn btn-success w-100 mt-2"
+                onclick="addToCart(@Model.ProductID)">
+            В корзину(JS)
+        </button>
+
+        <a class="btn btn-primary w-100" href="#">
             Добавить в корзину
         </a>
-
     </div>
 
 </div>
-
-<style>
-    .product-details {
-        display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 20px;
-    }
-
-    .gallery, .info {
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .no-image {
-        width: 100%;
-        height: 300px;
-        background: #f3f3f3;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999;
-        font-size: 18px;
-    }
-
-    @media (max-width: 900px) {
-        .product-details
-
-    {
-        grid-template-columns: 1fr;
-    }
-
-    }
-</style>

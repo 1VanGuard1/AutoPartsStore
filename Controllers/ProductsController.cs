@@ -35,7 +35,7 @@ namespace AutoPartsStore.Controllers
                 Products = products
             };
 
-            return View("Category", vm);
+            return View(vm);
         }
 
 
@@ -45,7 +45,7 @@ namespace AutoPartsStore.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.ProductID == productId);
-
+            Console.WriteLine(product);
             if (product == null)
                 return NotFound();
 

@@ -1,60 +1,50 @@
-﻿@model AutoPartsStore.Models.ViewModels.HomeIndexViewModel
+﻿@using AutoPartsStore.Helpers
+@model AutoPartsStore.Models.ViewModels.HomeIndexViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Автомагазин — Главная";
+    Layout = "_Layout";
 }
 
+<section class="container mt-4">
 
+    <!-- Популярные товары -->
+    <h2 class="mb-3">Популярные товары</h2>
 
-<div class="text-center">
-
-    @{
-        ViewData["Title"] = "Автомагазин — Главная";
-    }
-
-    <div class="container mt-4">
-
-        <h2 class="mb-4">Категории товаров</h2>
-
-        <div class="row mb-5">
-            @foreach (var cat in Model.Categories)
-            {
-                <div class="col-md-3 mb-3">
-                    <a href="/Category/Products/@cat.CategoryID" class="text-decoration-none">
-                        <div class="card shadow-sm">
-                            <div class="card-body text-center">
-                                <h5 class="mt-2">@cat.CategoryName</h5>
-                            </div>
-                        </div>
+    <div class="products-grid">
+        @foreach (var p in Model.Products)
+        {
+            <article class="product-card">
+                <div class="thumb">
+                    
+                    @* <a href="/Products/Details/@p.ProductID"> *@
+                    <a asp-controller="Products" asp-action="Details" asp-route-productId="@p.ProductID" asp-route-id="@p.ProductID">
+                        <img src="@(String.IsNullOrEmpty(@ImageHelper.BytesToBase64(p.ImageData)) ? "/images/placeholder.png" : p.ImageData)" alt="@p.ProductName" />
                     </a>
                 </div>
-            }
-        </div>
 
-        <h2 class="mb-4">Популярные товары</h2>
+                <div class="card-body">
+                    <div class="product-title">@p.ProductName</div>
+                    <div class="meta">Производитель: @p.Manufacturer</div>
+                    <div class="meta">Категория: @p.Category?.CategoryName</div>
 
-        <div class="row">
-            @foreach (var p in Model.Products)
-            {
-                <div class="col-md-3 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">@p.ProductName</h5>
-                            <p class="card-text">
-                                Производитель: @p.Manufacturer <br />
-                                Категория: @p.Category.CategoryName
-                            </p>
-                            <p class="fw-bold">Цена: @p.Price руб.</p>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <div class="price">@String.Format("{0:N0} руб.", p.Price)</div>
 
-                            <a href="/Product/Details/@p.ProductID" class="btn btn-primary w-100">
-                                Подробнее
-                            </a>
-                        </div>
+                    </div>
+
+                    <div class="card-actions mt-3">
+                        <a asp-controller="Products" asp-action="Details" asp-route-productId="@p.ProductID" asp-route-id="@p.ProductID" class="btn btn-outline">Подробнее</a>
+
+                        <form asp-controller="Cart" asp-action="Add" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@p.ProductID" />
+                            <button type="submit" class="btn btn-primary btn-block">В корзину</button>
+                        </form>
                     </div>
                 </div>
-            }
-        </div>
-
+            </article>
+        }
     </div>
 
-</div>
+</section>

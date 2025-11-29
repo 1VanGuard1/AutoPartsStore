@@ -1,7 +1,9 @@
 ﻿@model AutoPartsStore.Models.Product
 
 <div class="product-card">
-    <img src="@(Model.ImageUrl ?? "/images/no-image.png")" alt="image" />
+    @* <img src="@(Model.ImageData ?? "/images/no-image.png")" alt="image" /> *@
+
+    <img src="C:\\Users\\vangu\\Downloads\\vecteezy_black-rubber-car-tires-transparent_13362876.png" alt="image" /> 
 
     <div class="product-card-body">
         <div class="product-title">@Model.ProductName</div>
@@ -14,8 +16,9 @@
             @Model.Price руб.
         </div>
 
-        <a href="/Products/Details/@Model.ProductID"
-           class="btn btn-primary w-100 mt-3">
+
+        <a class="btn btn-primary w-100 mt-3" 
+        asp-controller="Products" asp-action="Details" asp-route-productId="@Model.ProductID" asp-route-id="@Model.ProductID">           
             Подробнее
         </a>
     </div>

@@ -1,0 +1,27 @@
+﻿@model List<AutoPartsStore.Models.Category>
+
+@{
+    ViewData["Title"] = "Админка — Категории";
+}
+
+<h2 class="mb-4">Категории товаров</h2>
+
+<div class="row">
+    @foreach (var c in Model)
+    {
+        <div class="col-md-3 mb-3">
+            <a asp-controller="Admin"
+               asp-action="Products"
+               asp-route-categoryId="@c.CategoryID"
+               class="text-decoration-none">
+
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5>@c.CategoryName</h5>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+    }
+</div>

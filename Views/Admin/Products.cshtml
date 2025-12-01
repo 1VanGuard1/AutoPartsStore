@@ -1,0 +1,60 @@
+﻿@model List<AutoPartsStore.Models.Product>
+
+@{
+    var category = ViewBag.Category as AutoPartsStore.Models.Category;
+    ViewData["Title"] = "Товары категории " + category.CategoryName;
+}
+
+<h2 class="mb-3">Товары категории: @category.CategoryName</h2>
+
+<a class="btn btn-success mb-3"
+   asp-controller="Admin"
+   asp-action="CreateProduct"
+   asp-route-categoryId="@category.CategoryID">
+    ➕ Добавить товар
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Фото</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Производитель</th>
+            <th style="width: 160px;">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.ProductID</td>
+
+                <td style="width:100px;">
+                    <img src="@(p.ImageUrl ?? "/images/placeholder.png")"
+                         style="width:80px; height:80px; object-fit:cover; border-radius:6px;" />
+                </td>
+
+                <td>@p.ProductName</td>
+                <td>@p.Price руб.</td>
+                <td>@p.Manufacturer</td>
+
+                <td>
+                    <a class="btn btn-sm btn-primary"
+                       asp-action="EditProduct"
+                       asp-route-id="@p.ProductID">
+                        ✏ Редактировать
+                    </a>
+
+                    <a class="btn btn-sm btn-danger"
+                       asp-action="DeleteProduct"
+                       asp-route-id="@p.ProductID"
+                       onclick="return confirm('Удалить товар?');">
+                        ❌ Удалить
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

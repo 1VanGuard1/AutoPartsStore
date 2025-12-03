@@ -1,0 +1,65 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Редактирование аккумулятора";
+    Layout = "_Layout";
+}
+<h2>Редактирование аккумулятора</h2>
+
+<form asp-action="EditBattery" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="ProductID" />
+
+    <div class="mb-2">
+        <label>Название</label>
+        <input asp-for="ProductName" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Цена</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Производитель</label>
+        <input asp-for="Manufacturer" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Описание</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <hr />
+
+    <h4>Характеристики аккумулятора</h4>
+
+    <div class="mb-2">
+        <label>Ёмкость</label>
+        <input asp-for="Battery.Capacity" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Полярность</label>
+        <input asp-for="Battery.Polarity" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Гарантия</label>
+        <input asp-for="Battery.WarrantyPeriod" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Напряжение</label>
+        <input asp-for="Battery.Voltage" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Новое изображение</label>
+        <input type="file" name="image" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">↩ Назад</a>
+
+</form>

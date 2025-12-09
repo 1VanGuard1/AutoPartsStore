@@ -15,20 +15,47 @@ namespace AutoPartsStore.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
-        {
-            var products = await _context.Products
-                .Include(p => p.Category)
-                .ToListAsync();
+        //public async Task<IActionResult> Index()
+        //{
+        //    var products = await _context.Products
+        //        .Include(p => p.Category)
+        //        .ToListAsync();
 
-            return View(products);
-        }
-       // Список категорий
-        public async Task<IActionResult> Categories()
+        //    return View(products);
+        //}
+
+        // Список категорий
+        //public async Task<IActionResult> Categories()
+        //{
+        //    var categories = await _context.Categories.ToListAsync();
+        //    return View(categories);
+        //}
+        
+        // new
+        public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
+        public async Task<IActionResult> Category(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+                return NotFound();
+
+            var products = await _context.Products
+                .Where(p => p.CategoryID == id)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+            ViewBag.Category = category;
+
+            return View(products);
+        }
+
+
+
 
         // Товары выбранной категории
         public async Task<IActionResult> Products(int categoryId)
@@ -159,7 +186,7 @@ namespace AutoPartsStore.Controllers
             if (product == null)
                 return NotFound();
 
-            // ✅ ОБНОВЛЯЕМ Product
+            // ОБНОВЛЯЕМ Product
             product.ProductName = model.ProductName;
             product.Price = model.Price;
             product.Manufacturer = model.Manufacturer;
@@ -172,7 +199,7 @@ namespace AutoPartsStore.Controllers
                 product.ImageData = ms.ToArray();
             }
 
-            // ✅ ОБНОВЛЯЕМ Battery
+            //  ОБНОВЛЯЕМ Battery
             product.Battery.Capacity = model.Battery.Capacity;
             product.Battery.Polarity = model.Battery.Polarity;
             product.Battery.WarrantyPeriod = model.Battery.WarrantyPeriod;

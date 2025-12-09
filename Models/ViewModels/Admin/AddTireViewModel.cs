@@ -1,0 +1,20 @@
+﻿namespace AutoPartsStore.Models.ViewModels.Admin
+{
+    public class AddTireViewModel
+    {
+        public int CategoryID { get; set; }
+
+        // Общие поля Product
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+        public string Manufacturer { get; set; }
+        public string? Description { get; set; }
+
+        // Поля Tire
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Diameter { get; set; }
+        public string Season { get; set; }
+        public string Type { get; set; }
+    }
+}

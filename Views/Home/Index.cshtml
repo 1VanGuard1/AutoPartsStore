@@ -19,7 +19,7 @@
                     
                     @* <a href="/Products/Details/@p.ProductID"> *@
                     <a asp-controller="Products" asp-action="Details" asp-route-productId="@p.ProductID" asp-route-id="@p.ProductID">
-                        <img src="@(String.IsNullOrEmpty(@ImageHelper.BytesToBase64(p.ImageData)) ? "/images/placeholder.png" : p.ImageData)" alt="@p.ProductName" />
+                        <img src="@(String.IsNullOrEmpty(@ImageHelper.BytesToBase64(p.ImageData)) ? "/images/placeholder.png" : $"data:image/jpeg;base64,{Convert.ToBase64String(p.ImageData)}")" )" alt="@p.ProductName" />
                     </a>
                 </div>
 

@@ -82,7 +82,7 @@ namespace AutoPartsStore.Controllers
             if (product == null || product.Battery == null)
                 return NotFound();
 
-            return View("EditBattery", product);
+            return View("~/Views/Admin/Battery/EditBattery.cshtml", product);
         }
 
         [HttpPost]

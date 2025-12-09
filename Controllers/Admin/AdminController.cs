@@ -1,4 +1,5 @@
 ﻿using AutoPartsStore.Data;
+using AutoPartsStore.Helpers;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,6 @@ namespace AutoPartsStore.Controllers
         public async Task<IActionResult> Category(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-
             if (category == null)
                 return NotFound();
 
@@ -49,10 +49,24 @@ namespace AutoPartsStore.Controllers
                 .Include(p => p.Category)
                 .ToListAsync();
 
+            // определяем контроллер по названию категории
+            ViewBag.ControllerName = category.CategoryName switch
+            {
+                "Batteries" => "Battery",
+                "Tires" => "Tire",
+                "Motor Oils" => "MotorOil",
+                "Brake Pads" => "BrakePad",
+                "Wipers" => "Wiper",
+                "Spark Plugs" => "SparkPlug",
+                _ => "Admin"
+            };
+
             ViewBag.Category = category;
 
             return View(products);
         }
+
+
 
 
 

@@ -10,6 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Admin\Categories\**" />
+    <Compile Remove="Views\Admin\Products\**" />
+    <Compile Remove="Views\Admin\Reports\**" />
+    <Content Remove="Views\Admin\Categories\**" />
+    <Content Remove="Views\Admin\Products\**" />
+    <Content Remove="Views\Admin\Reports\**" />
+    <EmbeddedResource Remove="Views\Admin\Categories\**" />
+    <EmbeddedResource Remove="Views\Admin\Products\**" />
+    <EmbeddedResource Remove="Views\Admin\Reports\**" />
+    <None Remove="Views\Admin\Categories\**" />
+    <None Remove="Views\Admin\Products\**" />
+    <None Remove="Views\Admin\Reports\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,9 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\Products\" />
-    <Folder Include="Views\Admin\Categories\" />
-    <Folder Include="Views\Admin\Reports\" />
+    <Folder Include="Views\Admin\BrakePad\" />
+    <Folder Include="Views\Admin\MotorOil\" />
   </ItemGroup>
 
 </Project>

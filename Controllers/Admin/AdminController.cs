@@ -67,10 +67,6 @@ namespace AutoPartsStore.Controllers
         }
 
 
-
-
-
-
         // Товары выбранной категории
         public async Task<IActionResult> Products(int categoryId)
         {

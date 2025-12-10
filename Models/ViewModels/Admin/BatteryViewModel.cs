@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoPartsStore.Models.ViewModels.Admin
 {
-    public class AddBatteryViewModel
+    public class BatteryViewModel
     {
         // Общие поля товара
         public int CategoryID { get; set; }

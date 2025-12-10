@@ -31,7 +31,7 @@ namespace AutoPartsStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddBatteryViewModel vm, IFormFile image)
+        public async Task<IActionResult> Add(BatteryViewModel vm, IFormFile image)
         {
             var product = new Product
             {

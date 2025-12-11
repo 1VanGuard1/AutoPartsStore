@@ -1,12 +1,12 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Редактирование аккумулятора";
+    ViewData["Title"] = "Редактирование свечей зажигания";
     Layout = "_Layout";
 }
-<h2>Редактирование аккумулятора</h2>
+<h2>Редактирование свечей зажигания</h2>
 
-<form asp-action="Edit" asp-controller="Battery" method="post" enctype="multipart/form-data">
+<form asp-action="Edit" asp-controller="SparkPlug" method="post" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="ProductID" />
 
@@ -32,26 +32,26 @@
 
     <hr />
 
-    <h4>Характеристики аккумулятора</h4>
+    <h4>Характеристики свечей зажигания</h4>
 
     <div class="mb-2">
-        <label>Ёмкость</label>
-        <input asp-for="Battery.Capacity" class="form-control" />
+        <label>Размер резьбы</label>
+        <input asp-for="SparkPlug.ThreadSize" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Полярность</label>
-        <input asp-for="Battery.Polarity" class="form-control" />
+        <label>Тепловой диапазон</label>
+        <input asp-for="SparkPlug.HeatRange" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Гарантия</label>
-        <input asp-for="Battery.WarrantyPeriod" class="form-control" />
+        <label>Материал электрода</label>
+        <input asp-for="SparkPlug.ElectrodeMaterial" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Напряжение</label>
-        <input asp-for="Battery.Voltage" class="form-control" />
+        <label>Зазор</label>
+        <input asp-for="SparkPlug.Gap" class="form-control" />
     </div>
 
     <div class="mb-3">

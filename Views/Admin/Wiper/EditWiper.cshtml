@@ -1,12 +1,12 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Редактирование аккумулятора";
+    ViewData["Title"] = "Редактирование стеклоочистителя";
     Layout = "_Layout";
 }
-<h2>Редактирование аккумулятора</h2>
+<h2>Редактирование стеклоочистителя</h2>
 
-<form asp-action="Edit" asp-controller="Battery" method="post" enctype="multipart/form-data">
+<form asp-action="Edit" asp-controller="Wiper" method="post" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="ProductID" />
 
@@ -32,26 +32,26 @@
 
     <hr />
 
-    <h4>Характеристики аккумулятора</h4>
+    <h4>Характеристики стеклоочистителя</h4>
 
     <div class="mb-2">
-        <label>Ёмкость</label>
-        <input asp-for="Battery.Capacity" class="form-control" />
+        <label>Сезон</label>
+        <input asp-for="Wiper.Season" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Полярность</label>
-        <input asp-for="Battery.Polarity" class="form-control" />
+        <label>Длина</label>
+        <input asp-for="Wiper.Length" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Гарантия</label>
-        <input asp-for="Battery.WarrantyPeriod" class="form-control" />
+        <label>Тип монтирования</label>
+        <input asp-for="Wiper.MountType" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Напряжение</label>
-        <input asp-for="Battery.Voltage" class="form-control" />
+        <label>Материал</label>
+        <input asp-for="Wiper.Material" class="form-control" />
     </div>
 
     <div class="mb-3">

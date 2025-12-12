@@ -2,5 +2,16 @@
 {
     public class MotorOilViewModel
     {
+        // Общие поля товара
+        public int CategoryID { get; set; }
+        public string ProductName { get; set; }
+        public decimal Price { get; set; }
+        public string Manufacturer { get; set; }
+        public string? Description { get; set; }
+
+        public string Viscosity { get; set; }
+        public decimal? Volume { get; set; }
+        public string OilType { get; set; }
+        public string ManufacturerCountry { get; set; }
     }
 }

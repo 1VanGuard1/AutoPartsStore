@@ -6,7 +6,7 @@ namespace AutoPartsStore.Models
     {
         [Key]
         public int ProductID { get; set; }
-        public string Viscosity { get; set; }
+        public string Viscosity { get; set; }        
         public decimal? Volume { get; set; }
         public string OilType { get; set; }
         public string ManufacturerCountry { get; set; }

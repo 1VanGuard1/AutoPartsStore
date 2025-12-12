@@ -1,18 +1,19 @@
 ﻿using AutoPartsStore.Data;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AutoPartsStore.Controllers.Admin
 {
-    public class BrakePadController : Controller
+    public class MotorOilController : Controller
     {
         private readonly AutoPartsStoreContext _context;
 
-        public BrakePadController(AutoPartsStoreContext context)
+        public MotorOilController(AutoPartsStoreContext context)
         {
             _context = context;
         }
@@ -28,11 +29,11 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddBrakePad.cshtml");
+            return View("AddMotorOil.cshtml");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(BrakePadViewModel vm, IFormFile image)
+        public async Task<IActionResult> Add(MotorOilViewModel vm, IFormFile image)
         {
             var product = new Product
             {
@@ -56,16 +57,16 @@ namespace AutoPartsStore.Controllers.Admin
             await _context.SaveChangesAsync();
 
             // добавляем аккумулятор, связанный по ProductID
-            var brakePad = new BrakePad
+            var MotorOil = new MotorOil
             {
                 ProductID = product.ProductID,
-                Compatibility = vm.Compatibility,
-                PadType = vm.PadType,
-                Material = vm.Material,
-                Thickness =vm.Thickness
+                Viscosity = vm.Viscosity,
+                Volume = vm.Volume,
+                OilType = vm.OilType,
+                ManufacturerCountry = vm.ManufacturerCountry
             };
 
-            _context.BrakePads.Add(brakePad);
+            _context.MotorOils.Add(MotorOil);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Admin");
@@ -77,20 +78,20 @@ namespace AutoPartsStore.Controllers.Admin
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _context.Products
-                .Include(p => p.Battery)
+                .Include(p => p.MotorOil)
                 .FirstOrDefaultAsync(p => p.ProductID == id);
 
-            if (product == null || product.BrakePad == null)
+            if (product == null || product.MotorOil == null)
                 return NotFound();
 
-            return View("~/Views/Admin/Battery/EditBrakePad.cshtml", product);
+            return View("~/Views/Admin/MotorOil/EditMotorOil.cshtml", product);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Product model, IFormFile image)
         {
             var product = await _context.Products
-                .Include(p => p.Battery)
+                .Include(p => p.MotorOil)
                 .FirstOrDefaultAsync(p => p.ProductID == model.ProductID);
 
             if (product == null)
@@ -110,13 +111,13 @@ namespace AutoPartsStore.Controllers.Admin
                 product.ImageData = ms.ToArray();
             }
 
-            // обновляем BrakePad
+            // обновляем MotorOil
 
-            product.BrakePad.Compatibility = model.BrakePad.Compatibility;
-            product.BrakePad.PadType = model.BrakePad.PadType;
-            product.BrakePad.Material = model.BrakePad.Material;
-            product.BrakePad.Thickness = model.BrakePad.Thickness;
-                        
+            product.MotorOil.Viscosity = model.MotorOil.Viscosity;
+            product.MotorOil.Volume = model.MotorOil.Volume;
+            product.MotorOil.OilType = model.MotorOil.OilType;
+            product.MotorOil.ManufacturerCountry = model.MotorOil.ManufacturerCountry;
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Admin");
@@ -127,7 +128,7 @@ namespace AutoPartsStore.Controllers.Admin
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products
-                .Include(p => p.BrakePad)
+                .Include(p => p.MotorOil)
                 .FirstOrDefaultAsync(p => p.ProductID == id);
 
             if (product == null)

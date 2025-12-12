@@ -1,6 +1,6 @@
 ﻿namespace AutoPartsStore.Models.ViewModels.Admin
 {
-    public class AddTireViewModel
+    public class TireViewModel
     {
         public int CategoryID { get; set; }
 

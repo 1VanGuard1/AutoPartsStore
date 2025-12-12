@@ -1,12 +1,12 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Редактирование аккумулятора";
+    ViewData["Title"] = "Редактирование шин";
     Layout = "_Layout";
 }
-<h2>Редактирование аккумулятора</h2>
+<h2>Редактирование шин</h2>
 
-<form asp-action="Edit" asp-controller="Battery" method="post" enctype="multipart/form-data">
+<form asp-action="Edit" asp-controller="Tire" method="post" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="ProductID" />
 
@@ -32,26 +32,31 @@
 
     <hr />
 
-    <h4>Характеристики аккумулятора</h4>
+    <h4>Характеристики шин</h4>
 
     <div class="mb-2">
-        <label>Ёмкость</label>
-        <input asp-for="Battery.Capacity" class="form-control" />
+        <label>Диаметр</label>
+        <input asp-for="Tire.Diameter" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Полярность</label>
-        <input asp-for="Battery.Polarity" class="form-control" />
+        <label>Высота</label>
+        <input asp-for="Tire.Height" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Гарантия</label>
-        <input asp-for="Battery.WarrantyPeriod" class="form-control" />
+        <label>Ширина</label>
+        <input asp-for="Tire.Width" class="form-control" />
     </div>
 
     <div class="mb-2">
-        <label>Напряжение</label>
-        <input asp-for="Battery.Voltage" class="form-control" />
+        <label>Сезон</label>
+        <input asp-for="Tire.Season" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Тип</label>
+        <input asp-for="Tire.Type" class="form-control" />
     </div>
 
     <div class="mb-3">

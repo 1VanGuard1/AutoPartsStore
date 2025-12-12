@@ -77,20 +77,20 @@ namespace AutoPartsStore.Controllers.Admin
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _context.Products
-                .Include(p => p.Battery)
+                .Include(p => p.BrakePad)
                 .FirstOrDefaultAsync(p => p.ProductID == id);
 
             if (product == null || product.BrakePad == null)
                 return NotFound();
 
-            return View("~/Views/Admin/Battery/EditBrakePad.cshtml", product);
+            return View("~/Views/Admin/BrakePad/EditBrakePad.cshtml", product);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Product model, IFormFile image)
         {
             var product = await _context.Products
-                .Include(p => p.Battery)
+                .Include(p => p.BrakePad)
                 .FirstOrDefaultAsync(p => p.ProductID == model.ProductID);
 
             if (product == null)

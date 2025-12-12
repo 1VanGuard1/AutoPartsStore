@@ -9,7 +9,7 @@ namespace AutoPartsStore.Models
         public required string PadType { get; set; } // Тип колодки
         public required string Material { get; set; } // Материал
         public required string Compatibility { get; set; } // Совместимость
-        public int Thickness { get; set; } // Thickness
+        public decimal Thickness { get; set; } // Thickness
         public Product Product { get; set; }
     }
 }

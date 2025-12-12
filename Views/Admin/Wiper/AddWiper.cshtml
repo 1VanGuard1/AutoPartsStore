@@ -1,10 +1,10 @@
-﻿@model AutoPartsStore.Models.ViewModels.Admin.BatteryViewModel
+﻿@model AutoPartsStore.Models.ViewModels.Admin.WiperViewModel
 
 @{
-    ViewData["Title"] = "Добавить аккумулятор";
+    ViewData["Title"] = "Добавить стеклоочиститель";
     Layout = "_Layout";
 }
-<h2>Добавить аккумулятор</h2>
+<h2>Добавить стеклоочиститель</h2>
 
 <form asp-action="AddBattery" method="post" enctype="multipart/form-data" class="mt-4">
 
@@ -42,30 +42,30 @@
 
     <hr />
 
-    <h4>Характеристики аккумулятора</h4>
+    <h4>Характеристики стеклоочистителя</h4>
 
     <div class="form-group mb-2">
-        <label>Ёмкость (Ah)</label>
-        <input asp-for="Capacity" type="number" class="form-control" />
+        <label>Длина</label>
+        <input asp-for="Length" type="number" class="form-control" />
     </div>
 
     <div class="form-group mb-2">
-        <label>Полярность</label>
-        <input asp-for="Polarity" class="form-control" />
+        <label>Тип крепления</label>
+        <input asp-for="MountType" class="form-control" />
     </div>
 
     <div class="form-group mb-2">
-        <label>Гарантия (мес)</label>
-        <input asp-for="WarrantyPeriod" type="number" class="form-control" />
+        <label>Сезон</label>
+        <input asp-for="Season"class="form-control" />
     </div>
 
     <div class="form-group mb-4">
-        <label>Напряжение (V)</label>
-        <input asp-for="Voltage" type="number" step="0.1" class="form-control" />
+        <label>Материал</label>
+        <input asp-for="Material" class="form-control" />
     </div>
 
     <button class="btn btn-success w-100">
-        ✅ Добавить аккумулятор
+        ✅ Добавить стеклоочиститель
     </button>
 
 </form>

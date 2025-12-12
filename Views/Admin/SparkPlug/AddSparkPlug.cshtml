@@ -1,10 +1,10 @@
-﻿@model AutoPartsStore.Models.ViewModels.Admin.BatteryViewModel
+﻿@model AutoPartsStore.Models.ViewModels.Admin.SparkPlugViewModel
 
 @{
-    ViewData["Title"] = "Добавить аккумулятор";
+    ViewData["Title"] = "Добавить свечу зажигания";
     Layout = "_Layout";
 }
-<h2>Добавить аккумулятор</h2>
+<h2>Добавить свечу зажигания</h2>
 
 <form asp-action="AddBattery" method="post" enctype="multipart/form-data" class="mt-4">
 
@@ -42,30 +42,31 @@
 
     <hr />
 
-    <h4>Характеристики аккумулятора</h4>
+
+    <h4>Характеристики свечи зажигания</h4>
 
     <div class="form-group mb-2">
-        <label>Ёмкость (Ah)</label>
-        <input asp-for="Capacity" type="number" class="form-control" />
+        <label>Тепловой диапазон</label>
+        <input asp-for="HeatRange" type="number" class="form-control" />
     </div>
 
     <div class="form-group mb-2">
-        <label>Полярность</label>
-        <input asp-for="Polarity" class="form-control" />
+        <label>Материал электрода</label>
+        <input asp-for="ElectrodeMaterial" class="form-control" />
     </div>
 
     <div class="form-group mb-2">
-        <label>Гарантия (мес)</label>
-        <input asp-for="WarrantyPeriod" type="number" class="form-control" />
+        <label>Размер резьбы</label>
+        <input asp-for="ThreadSize" class="form-control" />
     </div>
 
     <div class="form-group mb-4">
-        <label>Напряжение (V)</label>
-        <input asp-for="Voltage" type="number" step="0.1" class="form-control" />
+        <label>Зазор</label>
+        <input asp-for="Gap" type="number" step="0.1" class="form-control" />
     </div>
 
     <button class="btn btn-success w-100">
-        ✅ Добавить аккумулятор
+        ✅ Добавить свечу зажигания
     </button>
 
 </form>

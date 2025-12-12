@@ -9,12 +9,21 @@
 
 <div class="product-details-grid">
 
+    <!-- ЛЕВАЯ ЧАСТЬ -->
     <div class="details-box">
         <div class="details-image">
-            Фото отсутствует
+            @if (Model.ImageData == null)
+            {
+                <img src="/images/placeholder.png" alt="Нет фото" />
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)" alt="@Model.ProductName" />
+            }
         </div>
     </div>
 
+    <!-- ПРАВАЯ ЧАСТЬ -->
     <div class="details-box">
 
         <h2>@Model.ProductName</h2>
@@ -34,6 +43,87 @@
         <p class="mb-4">
             @Model.Description
         </p>
+
+        <!-- Характеристики по типу товара -->
+        <div class="product-specs">
+
+            @* АККУМУЛЯТОР *@
+            @if (Model.Battery != null)
+            {
+                <h4>Характеристики аккумулятора</h4>
+                <ul>
+                    <li>Емкость: @Model.Battery.Capacity Ah</li>
+                    <li>Полярность: @Model.Battery.Polarity</li>
+                    <li>Гарантия: @Model.Battery.WarrantyPeriod мес.</li>
+                    <li>Напряжение: @Model.Battery.Voltage V</li>
+                </ul>
+            }
+
+            @* ШИНЫ *@
+            @if (Model.Tire != null)
+            {
+                <h4>Характеристики шины</h4>
+                <ul>
+                    <li>Ширина: @Model.Tire.Width мм</li>
+                    <li>Высота: @Model.Tire.Height мм</li>
+                    <li>Диаметр: @Model.Tire.Diameter дюймов</li>
+                    <li>Сезонность: @Model.Tire.Season</li>
+                    <li>Тип: @Model.Tire.Type</li>
+                </ul>
+            }
+            Viscosity
+            Volume
+            
+            
+            @* МОТОРНОЕ МАСЛО *@
+            @if (Model.MotorOil != null)
+            {
+                <h4>Характеристики масла</h4>
+                <ul>
+                    <li>Тип: @Model.MotorOil.OilType</li>
+                    <li>Вязкость: @Model.MotorOil.Viscosity</li>
+                    <li>Объем: @Model.MotorOil.Volume л</li>
+                    <li>Страна-производитель: @Model.MotorOil.ManufacturerCountry</li>
+                </ul>
+            }
+
+            @* ТОРМОЗНЫЕ КОЛОДКИ *@
+            @if (Model.BrakePad != null)
+            {
+                <h4>Характеристики тормозных колодок</h4>
+                <ul>
+                    <li>Материал: @Model.BrakePad.Material</li>
+                    <li>Тип прокладки: @Model.BrakePad.PadType</li>
+                    <li>Совместимость: @Model.BrakePad.Compatibility</li>
+                    <li>Толщина: @Model.BrakePad.Thickness</li>
+                </ul>
+            }
+
+            @* ДВОРНИКИ *@
+            @if (Model.Wiper != null)
+            {
+                <h4>Характеристики дворников</h4>
+                <ul>
+                    <li>Длина: @Model.Wiper.Length мм</li>
+                    <li>Тип крепления: @Model.Wiper.MountType</li>
+                    <li>Сезон: @Model.Wiper.Season</li>
+                    <li>Материал: @Model.Wiper.Material</li>
+                </ul>
+            }
+
+            @* СВЕЧИ *@
+            @if (Model.SparkPlug != null)
+            {
+                <h4>Характеристики свечей</h4>
+                <ul>
+                    <li>Тип резьбы: @Model.SparkPlug.ThreadSize</li>
+                    <li>Зазор: @Model.SparkPlug.Gap мм</li>
+                    <li>Тепловой диапазон: @Model.SparkPlug.HeatRange</li>
+                    <li>Материал электрода: @Model.SparkPlug.ElectrodeMaterial</li>
+                </ul>
+            }
+
+        </div>
 
         <button class="btn btn-success w-100 mt-2"
                 onclick="addToCart(@Model.ProductID)">

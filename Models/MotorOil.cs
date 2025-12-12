@@ -10,7 +10,7 @@ namespace AutoPartsStore.Models
         public decimal? Volume { get; set; }
         public string OilType { get; set; }
         public string ManufacturerCountry { get; set; }
-
+        
         public Product Product { get; set; }
     }
 }

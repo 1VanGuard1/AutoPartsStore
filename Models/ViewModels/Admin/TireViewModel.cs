@@ -11,9 +11,9 @@
         public string? Description { get; set; }
 
         // Поля Tire
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public double Diameter { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Diameter { get; set; }
         public string Season { get; set; }
         public string Type { get; set; }
     }

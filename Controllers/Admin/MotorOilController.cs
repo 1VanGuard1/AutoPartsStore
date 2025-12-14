@@ -29,7 +29,7 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddMotorOil.cshtml");
+            return View("~/Views/Admin/MotorOil/AddMotorOil.cshtml");
         }
 
         [HttpPost]

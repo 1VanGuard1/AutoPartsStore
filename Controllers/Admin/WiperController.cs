@@ -27,7 +27,7 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddWiper.cshtml");
+            return View("~/Views/Admin/Wiper/AddWiper.cshtml");
         }
 
         [HttpPost]

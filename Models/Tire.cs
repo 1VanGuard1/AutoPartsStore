@@ -6,9 +6,9 @@ namespace AutoPartsStore.Models
     {
         [Key]
         public int ProductID { get; set; } //
-        public double Width { get; set; } // 
-        public double Height { get; set; } // 
-        public double Diameter { get; set; } // 
+        public int Width { get; set; } // 
+        public int Height { get; set; } // 
+        public int Diameter { get; set; } // 
         public required string Season { get; set; } // 
         public required string Type { get; set; } // 
         public Product Product { get; set; }

@@ -44,6 +44,12 @@ namespace AutoPartsStore.Controllers
         {
             var product = await _context.Products
                 .Include(p => p.Category)
+                .Include(p => p.Battery)
+                .Include(p => p.Tire)
+                .Include(p => p.MotorOil)
+                .Include(p => p.BrakePad)
+                .Include(p => p.Wiper)
+                .Include(p => p.SparkPlug)
                 .FirstOrDefaultAsync(p => p.ProductID == productId);
             Console.WriteLine(product);
             if (product == null)

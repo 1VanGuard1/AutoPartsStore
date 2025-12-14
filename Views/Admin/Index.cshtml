@@ -4,20 +4,33 @@
     ViewData["Title"] = "Панель администратора";
     Layout = "_Layout";
 }
+
 <h2 class="mb-4">Панель администратора</h2>
 
 <div class="row">
     @foreach (var c in Model)
     {
+        var firstProduct = c.Products?.FirstOrDefault();
+
         <div class="col-md-3 mb-4">
             <article class="product-card">
-                <div class="thumb">
 
+                <div class="thumb">
                     <a asp-controller="Admin"
                        asp-action="Category"
                        asp-route-id="@c.CategoryID">
 
-                        @c.CategoryName
+                        @if (firstProduct?.ImageData != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(firstProduct.ImageData)"
+                                 alt="@c.CategoryName" />
+                        }
+                        else
+                        {
+                            <img src="/images/placeholder.png"
+                                 alt="Нет изображения" />
+                        }
+
                     </a>
                 </div>
 
@@ -33,6 +46,7 @@
                         </a>
                     </div>
                 </div>
+
             </article>
         </div>
     }

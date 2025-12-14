@@ -7,5 +7,6 @@ namespace AutoPartsStore.Models
         [Key]
         public int CategoryID { get; set; }
         public required string CategoryName { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -33,10 +33,15 @@ namespace AutoPartsStore.Controllers
         //}
         
         // new
-        public async Task<IActionResult> Index()
+           public async Task<IActionResult> Index()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _context.Categories
+                .Include(c => c.Products)
+                .ToListAsync();
+
             return View(categories);
+        
+
         }
         public async Task<IActionResult> Category(int id)
         {

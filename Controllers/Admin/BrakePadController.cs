@@ -28,7 +28,7 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddBrakePad.cshtml");
+            return View("~/Views/Admin/BrakePad/AddBrakePad.cshtml");
         }
 
         [HttpPost]

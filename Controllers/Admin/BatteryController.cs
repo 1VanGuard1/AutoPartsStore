@@ -27,7 +27,7 @@ namespace AutoPartsStore.Controllers
                 "CategoryName"
             );
 
-            return View("AddBattery");  // чтобы View назывался AddBattery.cshtml
+            return View("~/Views/Admin/Battery/AddBattery.cshtml");  // чтобы View назывался AddBattery.cshtml
         }
 
         [HttpPost]

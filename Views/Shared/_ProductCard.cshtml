@@ -1,9 +1,9 @@
 ﻿@model AutoPartsStore.Models.Product
 
 <div class="product-card">
-    @* <img src="@(Model.ImageData ?? "/images/no-image.png")" alt="image" /> *@
+    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)" alt="@Model.ProductName" />
 
-    <img src="C:\\Users\\vangu\\Downloads\\vecteezy_black-rubber-car-tires-transparent_13362876.png" alt="image" /> 
+    @* <img src="C:\\Users\\vangu\\Downloads\\vecteezy_black-rubber-car-tires-transparent_13362876.png" alt="image" />  *@
 
     <div class="product-card-body">
         <div class="product-title">@Model.ProductName</div>

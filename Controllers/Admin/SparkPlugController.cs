@@ -27,7 +27,7 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddSparkPlug.cshtml");
+            return View("~/Views/Admin/SparkPlug/AddSparkPlug.cshtml");
         }
 
         [HttpPost]

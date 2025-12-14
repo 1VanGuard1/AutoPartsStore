@@ -27,7 +27,7 @@ namespace AutoPartsStore.Controllers.Admin
                 "CategoryName"
             );
 
-            return View("AddTire.cshtml");
+            return View("~/Views/Admin/Tire/AddTire.cshtml");
         }
 
         [HttpPost]

@@ -16,24 +16,7 @@ namespace AutoPartsStore.Controllers
         {
             _context = context;
         }
-        //public async Task<IActionResult> Index()
-        //{
-        //    var products = await _context.Products
-        //        .Include(p => p.Category)
-        //        .ToListAsync();
-
-        //    return View(products);
-        //}
-
-        // Список категорий
-        //public async Task<IActionResult> Categories()
-        //{
-        //    var categories = await _context.Categories.ToListAsync();
-        //    return View(categories);
-        //}
-        
-        // new
-           public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories
                 .Include(c => c.Products)

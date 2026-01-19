@@ -2,9 +2,11 @@
 using AutoPartsStore.Helpers;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace AutoPartsStore.Controllers
 {
@@ -221,5 +223,92 @@ namespace AutoPartsStore.Controllers
 
             return RedirectToAction("Products", new { categoryId });
         }
+
+        // ▶ Страница с выбором периода
+        [HttpGet]
+        public IActionResult SalesReport()
+        {
+            return View();
+        }
+
+        // ▶ Экспорт отчёта о продажах в Excel
+        [HttpPost]
+        public async Task<IActionResult> ExportSalesReportToExcel(DateTime? startDate, DateTime? endDate)
+        {
+            if (!startDate.HasValue)
+                startDate = DateTime.MinValue;
+            if (!endDate.HasValue)
+                endDate = DateTime.MaxValue;
+
+            // Берём продажи за период
+            var purchases = await _context.PurchaseHistory
+                .Include(ph => ph.User)
+                .Include(ph => ph.Product)
+                .ThenInclude(p => p.Category)
+                .Where(ph => ph.PurchaseDate >= startDate && ph.PurchaseDate <= endDate)
+                .OrderByDescending(ph => ph.PurchaseDate)
+                .ToListAsync();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var ws = workbook.Worksheets.Add("Отчёт о продажах");
+
+                // Заголовки
+                ws.Cell("A1").Value = "Пользователь ID";
+                ws.Cell("B1").Value = "ФИО клиента";
+                ws.Cell("C1").Value = "Email";
+                ws.Cell("D1").Value = "Товар ID";
+                ws.Cell("E1").Value = "Название товара";
+                ws.Cell("F1").Value = "Категория";
+                ws.Cell("G1").Value = "Количество";
+                ws.Cell("H1").Value = "Сумма (руб.)";
+                ws.Cell("I1").Value = "Дата покупки";
+
+                var header = ws.Range("A1:I1");
+                header.Style.Font.Bold = true;
+                header.Style.Fill.BackgroundColor = XLColor.DarkBlue;
+                header.Style.Font.FontColor = XLColor.White;
+                header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                int row = 2;
+                decimal totalAmount = 0;
+
+                foreach (var ph in purchases)
+                {
+                    ws.Cell(row, 1).Value = ph.UserID;
+                    ws.Cell(row, 2).Value = ph.User?.FullName ?? "Не указано";
+                    ws.Cell(row, 3).Value = ph.User?.Email ?? "Не указано";
+                    ws.Cell(row, 4).Value = ph.ProductID;
+                    ws.Cell(row, 5).Value = ph.Product?.ProductName ?? "Удалено";
+                    ws.Cell(row, 6).Value = ph.Product?.Category?.CategoryName ?? "-";
+                    ws.Cell(row, 7).Value = ph.Quantity;
+                    ws.Cell(row, 8).Value = ph.TotalPrice;
+                    ws.Cell(row, 9).Value = ph.PurchaseDate;   
+
+                    totalAmount += ph.TotalPrice;
+                    row++;
+                }
+
+                // ИТОГО
+                ws.Cell(row, 6).Value = "ИТОГО:";
+                ws.Cell(row, 6).Style.Font.Bold = true;
+                ws.Cell(row, 8).Value = totalAmount;
+                ws.Cell(row, 8).Style.Font.Bold = true;
+                ws.Cell(row, 8).Style.Fill.BackgroundColor = XLColor.LightYellow;
+
+                ws.Columns().AdjustToContents();
+
+                using var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                var fileName = $"SalesReport_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.xlsx";
+
+                return File(
+                    stream.ToArray(),
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    fileName
+                );
+            }
+        }
+
     }
 }

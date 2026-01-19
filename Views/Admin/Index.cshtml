@@ -8,6 +8,14 @@
 <h2 class="mb-4">Панель администратора</h2>
 
 <div class="row">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <a href="@Url.Action("SalesReport", "Admin")" class="btn btn-success btn-lg">
+                <i class="bi bi-file-earmark-excel"></i> Отчёт о продажах
+            </a>
+        </div>
+    </div>
+
     @foreach (var c in Model)
     {
         var firstProduct = c.Products?.FirstOrDefault();

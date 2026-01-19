@@ -14,6 +14,10 @@
     <header>
         @await Component.InvokeAsync("CategoryMenu")
     </header>
+    <form method="get" asp-action="Search" asp-controller="Products" class="d-flex">
+        <input type="text" name="query" class="form-control me-2" placeholder="Поиск по всем товарам..." />
+        <button class="btn btn-outline-primary" type="submit">Поиск</button>
+    </form>
 
     <div class="container">
         @RenderBody()

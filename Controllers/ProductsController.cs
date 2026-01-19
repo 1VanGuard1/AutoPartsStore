@@ -57,5 +57,30 @@ namespace AutoPartsStore.Controllers
 
             return View(product);
         }
+        public async Task<IActionResult> Search(string query, int? categoryId)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return View(new List<Product>());
+
+            var searchLower = query.ToLower().Trim();
+
+            var productsQuery = _context.Products
+                .Include(p => p.Category)
+                .AsQueryable();
+
+            if (categoryId.HasValue)
+                productsQuery = productsQuery.Where(p => p.CategoryID == categoryId.Value);
+
+            var products = await productsQuery
+                .Where(p => p.ProductName.ToLower().Contains(searchLower))
+                .OrderByDescending(p => p.ProductName.ToLower().StartsWith(searchLower))
+                .ThenBy(p => p.ProductName)
+                .ToListAsync();
+
+            ViewBag.SearchQuery = query;
+            ViewBag.CategoryId = categoryId;
+
+            return View(products);
+        }
     }
 }

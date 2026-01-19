@@ -5,7 +5,32 @@
     Layout = "_Layout";
 }
 
-<h2 class="page-title">Тормозные колодки</h2>
+<h2>@ViewBag.Category.CategoryName</h2>
+@* <h2 class="page-title">Тормозные колодки</h2> *@
+
+<!-- Поиск по наименованию внутри текущей категории -->
+<form method="get" asp-action="Search" asp-controller="Products" class="row g-2 mb-3">
+    <div class="col-md-6">
+        <input type="text"
+               name="query"
+               class="form-control"
+               placeholder="Поиск по названию в этой категории..."
+               value="@Context.Request.Query["query"]" />
+        <!-- ВАЖНО: передаём ID категории -->
+        <input type="hidden" name="categoryId" value="@Model.Category.CategoryID" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Найти</button>
+    </div>
+    <div class="col-md-4 text-end">
+        <a asp-action="Category"
+           asp-controller="Products"
+           asp-route-categoryId="@Model.Category.CategoryID"
+           class="btn btn-outline-secondary">
+            Сбросить фильтр
+        </a>
+    </div>
+</form>
 
 <div class="products-grid">
     @foreach (var product in Model.Products)

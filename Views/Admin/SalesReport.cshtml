@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Отчёт о продажах";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <h2>📊 Отчёт о продажах</h2>
+    <hr />
+
+    <!-- Модальное окно для выбора дат -->
+    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#salesReportModal">
+        <i class="bi bi-file-earmark-excel"></i> Сформировать отчёт
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="salesReportModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">📅 Выбор периода</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form method="post" asp-action="ExportSalesReportToExcel">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">Начальная дата:</label>
+                            <input type="date"
+                                   id="startDate"
+                                   name="startDate"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">Конечная дата:</label>
+                            <input type="date"
+                                   id="endDate"
+                                   name="endDate"
+                                   class="form-control" />
+                        </div>
+
+                        <p class="text-muted">
+                            <small>
+                                💡 Если не заполнить даты, в отчёт попадут все продажи.
+                            </small>
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-download"></i> Скачать Excel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Инструкция -->
+    <div class="alert alert-info mt-4">
+        <h5>📌 Как использовать:</h5>
+        <ol>
+            <li>Нажми кнопку «Сформировать отчёт»</li>
+            <li>Выбери начальную и конечную даты (опционально)</li>
+            <li>Нажми «Скачать Excel»</li>
+            <li>Файл скачается на твой компьютер</li>
+        </ol>
+    </div>
+</div>
+
+<!-- Bootstrap для модали -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">

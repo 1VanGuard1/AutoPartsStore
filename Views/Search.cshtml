@@ -1,0 +1,105 @@
+﻿@model List<AutoPartsStore.Models.Product>
+
+@{
+    ViewData["Title"] = "Поиск товаров";
+    Layout = "_Layout";
+
+    var query = ViewBag.SearchQuery as string;
+    int? categoryId = ViewBag.CategoryId as int?;
+}
+
+<section class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-0">Результаты поиска</h2>
+
+            @if (!string.IsNullOrWhiteSpace(query))
+            {
+                <p class="text-muted mb-0">
+                    Запрос: <strong>"@query"</strong>
+                    @if (categoryId.HasValue)
+                    {
+                        <span class="badge bg-secondary ms-2">в пределах категории</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-info ms-2">по всем товарам</span>
+                    }
+                </p>
+            }
+        </div>
+
+        <!-- ФОРМА ПОИСКА (работает и глобально, и по категории) -->
+        <form method="get"
+              asp-controller="Products"
+              asp-action="Search"
+              class="d-flex"
+              style="max-width: 350px;">
+
+            <input type="text"
+                   name="query"
+                   class="form-control me-2"
+                   placeholder="Поиск по названию..."
+                   value="@query" />
+
+            @* если пришли из категории, сохраняем categoryId *@
+            @if (categoryId.HasValue)
+            {
+                <input type="hidden" name="categoryId" value="@categoryId.Value" />
+            }
+
+            <button type="submit" class="btn btn-primary">
+                Найти
+            </button>
+        </form>
+    </div>
+
+    @if (string.IsNullOrWhiteSpace(query))
+    {
+        <div class="alert alert-info">
+            Введите текст в поле поиска и нажмите «Найти».
+        </div>
+    }
+    else
+    {
+        <h5 class="mb-3">Найдено товаров: @Model.Count</h5>
+
+        @if (Model.Any())
+        {
+            <div class="products-grid">
+                @foreach (var p in Model)
+                {
+                    @Html.Partial("_ProductCard", p)
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                По запросу <strong>"@query"</strong> товары не найдены.
+                @if (categoryId.HasValue)
+                {
+                    <div class="mt-2">
+                        <a asp-controller="Products"
+                           asp-action="Category"
+                           asp-route-categoryId="@categoryId.Value"
+                           class="btn btn-outline-secondary">
+                            Вернуться к списку категории
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="mt-2">
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Вернуться на главную
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    }
+</section>

@@ -460,6 +460,26 @@ html, body {
     padding: 12px;
 }
 
+.product-image-wrapper {
+    width: 320px; /* фиксированная ширина */
+    height: 240px; /* фиксированная высота */
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image-fixed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* заполнить область, обрезая лишнее */
+    object-position: center;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* тень */ 
+}
 /* responsive tweaks */
 @media (max-width: 991px) {
     .product-details {

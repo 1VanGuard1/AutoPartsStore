@@ -1,6 +1,7 @@
 ﻿using AutoPartsStore.Data;
 using AutoPartsStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 public class CartController : Controller
@@ -51,13 +52,62 @@ public class CartController : Controller
         return Json(new { ok = true });
     }
 
+    // Увеличить количество
+    [HttpPost]
+    public IActionResult Increment(int productId)
+    {
+        var cart = GetCart();
+        var item = cart.FirstOrDefault(x => x.ProductId == productId);
+        if (item != null)
+        {
+            item.Quantity++;
+            SaveCart(cart);
+        }
+
+        return Json(new { ok = true });
+    }
+
+    // Уменьшить количество
+    [HttpPost]
+    public IActionResult Decrement(int productId)
+    {
+        var cart = GetCart();
+        var item = cart.FirstOrDefault(x => x.ProductId == productId);
+        if (item != null)
+        {
+            item.Quantity--;
+            if (item.Quantity <= 0)
+                cart.Remove(item);
+
+            SaveCart(cart);
+        }
+
+        return Json(new { ok = true });
+    }
+
+    // Удаление
+    [HttpPost]
+    public IActionResult Remove(int productId)
+    {
+        var cart = GetCart();
+        cart = cart.Where(c => c.ProductId != productId).ToList();
+        SaveCart(cart);
+        return Json(new { ok = true });
+    }
+
     // Страница корзины
     public IActionResult Index()
     {
         var cart = GetCart();
 
+        if (!cart.Any())
+            return View(new List<CartViewModelItem>());
+
+        var ids = cart.Select(c => c.ProductId).ToList();
+
         var products = _context.Products
-            .Where(p => cart.Select(c => c.ProductId).Contains(p.ProductID))
+            .Include(p => p.Category)
+            .Where(p => ids.Contains(p.ProductID))
             .ToList();
 
         var vm = cart.Select(cartItem => new CartViewModelItem
@@ -69,14 +119,17 @@ public class CartController : Controller
         return View(vm);
     }
 
-    // Удаление
+    // Оформление заказа (минимальный вариант: просто очистить корзину)
     [HttpPost]
-    public IActionResult Remove(int productId)
+    public IActionResult Checkout(string fullName, string email, string phone)
     {
-        var cart = GetCart();
-        cart = cart.Where(c => c.ProductId != productId).ToList();
-        SaveCart(cart);
-        return Json(new { ok = true });
+        // Здесь можно добавить сохранение в PurchaseHistory при наличии UserID
+
+        // Очистим корзину
+        SaveCart(new List<CartItem>());
+
+        TempData["OrderSuccess"] = "Заказ успешно оформлен!";
+        return RedirectToAction("Index");
     }
 }
 

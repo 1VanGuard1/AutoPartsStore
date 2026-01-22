@@ -1,16 +1,50 @@
 ﻿@model IEnumerable<AutoPartsStore.Models.Category>
 
-<nav class="category-menu mb-5">
-    <div class="nav">
-        @foreach (var cat in Model)
-        {
-            <a class="nav-link"
-               asp-controller="Products"
-               asp-action="Category"
-               asp-route-categoryId="@cat.CategoryID"
-               asp-route-id="@cat.CategoryID">
-                @cat.CategoryName
-            </a>
-        }
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <div class="container-fluid">
+        <!-- Кнопка "В начало" -->
+        <a class="navbar-brand"
+           asp-controller="Home"
+           asp-action="Index">
+            В начало
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#categoryMenu"
+                aria-controls="categoryMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="categoryMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                @* Русские названия категорий *@
+                @foreach (var c in Model)
+                {
+                    string russianName = c.CategoryName switch
+                    {
+                        "Batteries" => "Аккумуляторы",
+                        "Tires" => "Шины",
+                        "Motor Oils" => "Моторные масла",
+                        "Brake Pads" => "Тормозные колодки",
+                        "Wipers" => "Дворники",
+                        "Spark Plugs" => "Свечи зажигания",
+                        _ => c.CategoryName // fallback
+                    };
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Products"
+                           asp-action="Category"
+                           asp-route-categoryId="@c.CategoryID">
+                            @russianName
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 </nav>

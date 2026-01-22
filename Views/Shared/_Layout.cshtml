@@ -10,9 +10,18 @@
     <script src="~/js/cart.js"></script>
 
 </head>
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var isAdmin = string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase);
+}
+
 <body>
     <header>
-        @await Component.InvokeAsync("CategoryMenu")
+        @if (!isAdmin)
+        {
+            @await Component.InvokeAsync("CategoryMenu")
+        }
     </header>
 
     <div class="container">

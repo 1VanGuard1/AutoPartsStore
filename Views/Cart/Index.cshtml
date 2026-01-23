@@ -127,27 +127,30 @@
 
 @section Scripts {
     <script>
-        // AJAX helper
+        // простой helper без jQuery
         function postCartAction(url, productId, onSuccess) {
             fetch(url, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                    "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() || ''
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
                 body: "productId=" + encodeURIComponent(productId)
             })
             .then(r => r.json())
             .then(data => {
                 if (data.ok && onSuccess) onSuccess();
-            });
+            })
+            .catch(err => console.error(err));
         }
 
         function recalcTotals() {
             let total = 0;
             document.querySelectorAll("#cart-body tr").forEach(tr => {
                 const qty = parseInt(tr.querySelector(".qty-input").value || "0");
-                const priceText = tr.children[2].innerText.replace("руб.", "").replace(/\s/g, "").replace(",", ".");
+                const priceText = tr.children[2].innerText
+                    .replace("руб.", "")
+                    .replace(/\s/g, "")
+                    .replace(",", ".");
                 const price = parseFloat(priceText) || 0;
                 const line = qty * price;
                 tr.querySelector(".line-total").innerText = line.toFixed(2) + " руб.";

@@ -1,12 +1,14 @@
 ﻿using AutoPartsStore.Data;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoPartsStore.Controllers.Admin
 {
+    [Authorize(Roles = "admin")]
     public class TireController : Controller
     {
         private readonly AutoPartsStoreContext _context;

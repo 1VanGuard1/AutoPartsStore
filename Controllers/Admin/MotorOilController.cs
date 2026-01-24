@@ -1,6 +1,7 @@
 ﻿using AutoPartsStore.Data;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AutoPartsStore.Controllers.Admin
 {
+    [Authorize(Roles = "admin")]
     public class MotorOilController : Controller
     {
         private readonly AutoPartsStoreContext _context;

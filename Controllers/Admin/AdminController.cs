@@ -3,6 +3,7 @@ using AutoPartsStore.Helpers;
 using AutoPartsStore.Models;
 using AutoPartsStore.Models.ViewModels.Admin;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using System.Drawing;
 
 namespace AutoPartsStore.Controllers
 {
+
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly AutoPartsStoreContext _context;

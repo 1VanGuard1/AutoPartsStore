@@ -1,0 +1,37 @@
+﻿@model AutoPartsStore.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Вход в админ-панель";
+    Layout = "_Layout";
+}
+
+<section class="container mt-4" style="max-width: 420px;">
+    <h2 class="mb-3">Вход в админ-панель</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Пароль</label>
+            <input asp-for="Password" type="password" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Войти
+        </button>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="text-danger mt-2">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    @error.ErrorMessage
+            
+                    <br />
+                }
+            </div>
+        }
+    </form>
+</section>

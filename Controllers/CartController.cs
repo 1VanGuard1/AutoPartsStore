@@ -121,16 +121,67 @@ public class CartController : Controller
 
     // Оформление заказа (минимальный вариант: просто очистить корзину)
     [HttpPost]
+    [HttpPost]
     public IActionResult Checkout(string fullName, string email, string phone)
     {
-        // Здесь можно добавить сохранение в PurchaseHistory при наличии UserID
+        var cart = GetCart();
+        if (!cart.Any())
+        {
+            TempData["OrderSuccess"] = "Корзина пуста, нечего оформлять.";
+            return RedirectToAction("Index");
+        }
 
-        // Очистим корзину
+        // 1. Ищем пользователя по email
+        var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
+        if (user == null)
+        {
+            user = new User
+            {
+                FullName = fullName,
+                Email = email,
+                PhoneNumber = phone,
+                Role = "user",
+                // Специальное значение, чтобы отличать “покупателей без логина”
+                PasswordHash = "ORDER_ONLY",
+                PurchaseHistory = new List<PurchaseHistory>()
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges(); // чтобы появился UserID
+        }
+
+        // 2. Готовим покупки
+        var productIds = cart.Select(c => c.ProductId).ToList();
+        var products = _context.Products
+            .Where(p => productIds.Contains(p.ProductID))
+            .ToList();
+
+        var now = DateTime.UtcNow;
+
+        foreach (var cartItem in cart)
+        {
+            var product = products.First(p => p.ProductID == cartItem.ProductId);
+
+            var record = new PurchaseHistory
+            {
+                UserID = user.UserID,
+                ProductID = product.ProductID,
+                PurchaseDate = now,
+                Quantity = cartItem.Quantity,
+                TotalPrice = cartItem.Quantity * product.Price
+            };
+
+            _context.PurchaseHistory.Add(record);
+        }
+
+        _context.SaveChanges();
+
         SaveCart(new List<CartItem>());
-
-        TempData["OrderSuccess"] = "Заказ успешно оформлен!";
+        TempData["OrderSuccess"] = "Заказ успешно оформлен! Наш менеджер свяжется с вами.";
         return RedirectToAction("Index");
     }
+
 }
 
 public class CartItem

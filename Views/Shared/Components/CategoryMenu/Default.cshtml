@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
     <div class="container-fluid">
-        <!-- Кнопка "В начало" -->
+
         <a class="navbar-brand"
            asp-controller="Home"
            asp-action="Index">
@@ -43,15 +43,15 @@
                             @russianName
                         </a>
                     </li>
-                }
-                <li class="nav-item">
-                    <a class="nav-link"
-                       asp-controller="Cart"
-                       asp-action="Index">
-                       Корзина
-                    </a>
-                </li>
+                }               
             </ul>
+            <div class="d-flex">
+                <a asp-controller="Cart"
+                   asp-action="Index"
+                   class="btn btn-outline-success">
+                    Корзина
+                </a>
+            </div>
         </div>
     </div>
 </nav>

@@ -1,5 +1,6 @@
 using AutoPartsStore.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AutoPartsStore
 {
@@ -9,18 +10,28 @@ namespace AutoPartsStore
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // MVC
             builder.Services.AddControllersWithViews();
+
+            // DbContext
             builder.Services.AddDbContext<AutoPartsStoreContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Cookie-аутентификация без Identity
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";       
+                    options.AccessDeniedPath = "/Account/Denied";
+                });
+
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -29,6 +40,7 @@ namespace AutoPartsStore
 
             app.UseRouting();
 
+            app.UseAuthentication();   
             app.UseAuthorization();
 
             app.MapControllerRoute(

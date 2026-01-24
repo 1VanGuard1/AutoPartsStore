@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="product-title">@c.CategoryName</div>
+                    <div class="product-title">@CategoryControllerMapper.GetRussianName(c.CategoryName)</div>
 
                     <div class="card-actions mt-3">
                         <a asp-controller="Admin"

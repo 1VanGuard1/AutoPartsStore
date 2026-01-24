@@ -22,16 +22,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @foreach (var c in Model)
                 {
-                    string russianName = c.CategoryName switch
-                    {
-                        "Batteries" => "Аккумуляторы",
-                        "Tires" => "Шины",
-                        "Motor Oils" => "Моторные масла",
-                        "Brake Pads" => "Тормозные колодки",
-                        "Wipers" => "Дворники",
-                        "Spark Plugs" => "Свечи зажигания",
-                        _ => c.CategoryName
-                    };
+                    var russianName = CategoryControllerMapper.GetRussianName(c.CategoryName);
 
                     <li class="nav-item">
                         <a class="nav-link"

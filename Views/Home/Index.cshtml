@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <div class="product-title">@p.ProductName</div>
                     <div class="meta">Производитель: @p.Manufacturer</div>
-                    <div class="meta">Категория: @p.Category?.CategoryName</div>
+                    <div class="meta">Категория: @CategoryControllerMapper.GetRussianName(@p.Category.CategoryName)</div>
 
                     <div class="d-flex align-items-center justify-content-between mt-2">
                         <div class="price">@String.Format("{0:N0} руб.", p.Price)</div>

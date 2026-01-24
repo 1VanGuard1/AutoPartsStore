@@ -5,7 +5,7 @@
     Layout = "_LayoutAdmin";
 }
 
-<h2>@ViewBag.Category.CategoryName</h2>
+<h2>@CategoryControllerMapper.GetRussianName(@ViewBag.Category.CategoryName)</h2>
 
 <div class="mb-3">
     <a asp-controller="@ViewBag.ControllerName"

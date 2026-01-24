@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = Model.Category.CategoryName;
     Layout = "_Layout";
+    var categoryRu = CategoryControllerMapper.GetRussianName(Model.Category.CategoryName);
 }
 
-<h2>@Model.Category.CategoryName</h2>
+<h2>@categoryRu</h2>
 @* <h2 class="page-title">Тормозные колодки</h2> *@
 
 <!-- Поиск по наименованию внутри текущей категории -->

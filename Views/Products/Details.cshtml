@@ -3,129 +3,140 @@
 @{
     ViewData["Title"] = Model.ProductName;
     Layout = "_Layout";
+    var categoryRu = CategoryControllerMapper.GetRussianName(Model.Category.CategoryName);
 }
 
-<h2 class="page-title">@Model.ProductName</h2>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
 
-<div class="product-details-grid">
+            <h2 class="h4 mb-4">@Model.ProductName</h2>
 
-    <!-- ЛЕВАЯ ЧАСТЬ -->
-    <div class="details-box">
-        <div class="details-image  product-image-wrapper">
-            @if (Model.ImageData == null)
-            {
-                <img src="/images/placeholder.png" alt="Нет фото" class="product-image-fixed" />
-            }
-            else
-            {
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)" alt="@Model.ProductName" class="product-image-fixed" />
-            }
+            <div class="row product-details-grid align-items-start">
+
+                <!-- ЛЕВАЯ ЧАСТЬ -->
+                <div class="col-md-5 mb-3 mb-md-0">
+                    <div class="details-image product-image-wrapper border rounded bg-light">
+                        @if (Model.ImageData == null)
+                        {
+                            <img src="/images/placeholder.png"
+                                 alt="Нет фото"
+                                 class="product-image-fixed" />
+                        }
+                        else
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageData)"
+                                 alt="@Model.ProductName"
+                                 class="product-image-fixed" />
+                        }
+                    </div>
+                </div>
+
+                <!-- ПРАВАЯ ЧАСТЬ -->
+                <div class="col-md-7">
+                    <h3 class="h5">@Model.ProductName</h3>
+
+                    <div class="mb-1 text-muted">
+                        Производитель: <strong>@Model.Manufacturer</strong>
+                    </div>
+
+                    <div class="mb-2 text-muted">
+                        Категория: <strong>@categoryRu</strong>
+                    </div>
+
+                    <div class="h4 text-success mb-3">
+                        @Model.Price руб.
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p class="mb-4">
+                            @Model.Description
+                        </p>
+                    }
+
+                    <!-- Характеристики по типу товара -->
+                    <div class="product-specs mb-4">
+                        @* АККУМУЛЯТОР *@
+                        @if (Model.Battery != null)
+                        {
+                            <h5 class="h6">Характеристики аккумулятора</h5>
+                            <ul class="mb-3">
+                                <li>Емкость: @Model.Battery.Capacity Ah</li>
+                                <li>Полярность: @Model.Battery.Polarity</li>
+                                <li>Гарантия: @Model.Battery.WarrantyPeriod мес.</li>
+                                <li>Напряжение: @Model.Battery.Voltage V</li>
+                            </ul>
+                        }
+
+                        @* ШИНЫ *@
+                        @if (Model.Tire != null)
+                        {
+                            <h5 class="h6">Характеристики шины</h5>
+                            <ul class="mb-3">
+                                <li>Ширина: @Model.Tire.Width мм</li>
+                                <li>Высота: @Model.Tire.Height мм</li>
+                                <li>Диаметр: @Model.Tire.Diameter дюймов</li>
+                                <li>Сезонность: @Model.Tire.Season</li>
+                                <li>Тип: @Model.Tire.Type</li>
+                            </ul>
+                        }
+
+                        @* МОТОРНОЕ МАСЛО *@
+                        @if (Model.MotorOil != null)
+                        {
+                            <h5 class="h6">Характеристики масла</h5>
+                            <ul class="mb-3">
+                                <li>Тип: @Model.MotorOil.OilType</li>
+                                <li>Вязкость: @Model.MotorOil.Viscosity</li>
+                                <li>Объем: @Model.MotorOil.Volume л</li>
+                                <li>Страна-производитель: @Model.MotorOil.ManufacturerCountry</li>
+                            </ul>
+                        }
+
+                        @* ТОРМОЗНЫЕ КОЛОДКИ *@
+                        @if (Model.BrakePad != null)
+                        {
+                            <h5 class="h6">Характеристики тормозных колодок</h5>
+                            <ul class="mb-3">
+                                <li>Материал: @Model.BrakePad.Material</li>
+                                <li>Тип прокладки: @Model.BrakePad.PadType</li>
+                                <li>Совместимость: @Model.BrakePad.Compatibility</li>
+                                <li>Толщина: @Model.BrakePad.Thickness</li>
+                            </ul>
+                        }
+
+                        @* ДВОРНИКИ *@
+                        @if (Model.Wiper != null)
+                        {
+                            <h5 class="h6">Характеристики дворников</h5>
+                            <ul class="mb-3">
+                                <li>Длина: @Model.Wiper.Length мм</li>
+                                <li>Тип крепления: @Model.Wiper.MountType</li>
+                                <li>Сезон: @Model.Wiper.Season</li>
+                                <li>Материал: @Model.Wiper.Material</li>
+                            </ul>
+                        }
+
+                        @* СВЕЧИ *@
+                        @if (Model.SparkPlug != null)
+                        {
+                            <h5 class="h6">Характеристики свечей</h5>
+                            <ul class="mb-3">
+                                <li>Тип резьбы: @Model.SparkPlug.ThreadSize</li>
+                                <li>Зазор: @Model.SparkPlug.Gap мм</li>
+                                <li>Тепловой диапазон: @Model.SparkPlug.HeatRange</li>
+                                <li>Материал электрода: @Model.SparkPlug.ElectrodeMaterial</li>
+                            </ul>
+                        }
+                    </div>
+
+                    <button class="btn btn-success btn-lg w-100"
+                            onclick="addToCart(@Model.ProductID)">
+                        В корзину
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-  
-    <!-- ПРАВАЯ ЧАСТЬ -->
-    <div class="details-box">
-
-        <h2>@Model.ProductName</h2>
-
-        <div class="mb-2 text-muted">
-            Производитель: <strong>@Model.Manufacturer</strong>
-        </div>
-
-        <div class="mb-2 text-muted">
-            Категория: <strong>@Model.Category.CategoryName</strong>
-        </div>
-
-        <div class="product-price mb-3">
-            @Model.Price руб.
-        </div>
-
-        <p class="mb-4">
-            @Model.Description
-        </p>
-
-        <!-- Характеристики по типу товара -->
-        <div class="product-specs">
-
-            @* АККУМУЛЯТОР *@
-            @if (Model.Battery != null)
-            {
-                <h4>Характеристики аккумулятора</h4>
-                <ul>
-                    <li>Емкость: @Model.Battery.Capacity Ah</li>
-                    <li>Полярность: @Model.Battery.Polarity</li>
-                    <li>Гарантия: @Model.Battery.WarrantyPeriod мес.</li>
-                    <li>Напряжение: @Model.Battery.Voltage V</li>
-                </ul>
-            }
-
-            @* ШИНЫ *@
-            @if (Model.Tire != null)
-            {
-                <h4>Характеристики шины</h4>
-                <ul>
-                    <li>Ширина: @Model.Tire.Width мм</li>
-                    <li>Высота: @Model.Tire.Height мм</li>
-                    <li>Диаметр: @Model.Tire.Diameter дюймов</li>
-                    <li>Сезонность: @Model.Tire.Season</li>
-                    <li>Тип: @Model.Tire.Type</li>
-                </ul>
-            }            
-            
-            @* МОТОРНОЕ МАСЛО *@
-            @if (Model.MotorOil != null)
-            {
-                <h4>Характеристики масла</h4>
-                <ul>
-                    <li>Тип: @Model.MotorOil.OilType</li>
-                    <li>Вязкость: @Model.MotorOil.Viscosity</li>
-                    <li>Объем: @Model.MotorOil.Volume л</li>
-                    <li>Страна-производитель: @Model.MotorOil.ManufacturerCountry</li>
-                </ul>
-            }
-
-            @* ТОРМОЗНЫЕ КОЛОДКИ *@
-            @if (Model.BrakePad != null)
-            {
-                <h4>Характеристики тормозных колодок</h4>
-                <ul>
-                    <li>Материал: @Model.BrakePad.Material</li>
-                    <li>Тип прокладки: @Model.BrakePad.PadType</li>
-                    <li>Совместимость: @Model.BrakePad.Compatibility</li>
-                    <li>Толщина: @Model.BrakePad.Thickness</li>
-                </ul>
-            }
-
-            @* ДВОРНИКИ *@
-            @if (Model.Wiper != null)
-            {
-                <h4>Характеристики дворников</h4>
-                <ul>
-                    <li>Длина: @Model.Wiper.Length мм</li>
-                    <li>Тип крепления: @Model.Wiper.MountType</li>
-                    <li>Сезон: @Model.Wiper.Season</li>
-                    <li>Материал: @Model.Wiper.Material</li>
-                </ul>
-            }
-
-            @* СВЕЧИ *@
-            @if (Model.SparkPlug != null)
-            {
-                <h4>Характеристики свечей</h4>
-                <ul>
-                    <li>Тип резьбы: @Model.SparkPlug.ThreadSize</li>
-                    <li>Зазор: @Model.SparkPlug.Gap мм</li>
-                    <li>Тепловой диапазон: @Model.SparkPlug.HeatRange</li>
-                    <li>Материал электрода: @Model.SparkPlug.ElectrodeMaterial</li>
-                </ul>
-            }
-
-        </div>
-
-        <button class="btn btn-success w-100 mt-2"
-                onclick="addToCart(@Model.ProductID)">
-            В корзину
-        </button>
-    </div>
-
 </div>

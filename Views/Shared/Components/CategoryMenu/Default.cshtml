@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<AutoPartsStore.Models.Category>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-        <a class="navbar-brand"
+        <a class="navbar-brand fw-semibold"
            asp-controller="Home"
            asp-action="Index">
             В начало
@@ -20,8 +20,6 @@
 
         <div class="collapse navbar-collapse" id="categoryMenu">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                @* Русские названия категорий *@
                 @foreach (var c in Model)
                 {
                     string russianName = c.CategoryName switch
@@ -32,7 +30,7 @@
                         "Brake Pads" => "Тормозные колодки",
                         "Wipers" => "Дворники",
                         "Spark Plugs" => "Свечи зажигания",
-                        _ => c.CategoryName // fallback
+                        _ => c.CategoryName
                     };
 
                     <li class="nav-item">
@@ -43,12 +41,13 @@
                             @russianName
                         </a>
                     </li>
-                }               
+                }
             </ul>
+
             <div class="d-flex">
                 <a asp-controller="Cart"
                    asp-action="Index"
-                   class="btn btn-outline-success">
+                   class="btn btn-outline-success btn-sm">
                     Корзина
                 </a>
             </div>

@@ -14,24 +14,35 @@ namespace AutoPartsStore.Controllers
         {
             _context = context;
         }
-
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string query, string sort)
         {
-            var categories = await _context.Categories.ToListAsync();
-
-            var products = await _context.Products
+            var products = _context.Products
                 .Include(p => p.Category)
-                .Take(20)
-                .ToListAsync();
+                .AsQueryable();
 
-            var vm = new HomeIndexViewModel
+            if (!string.IsNullOrWhiteSpace(query))
             {
-                Categories = categories,
-                Products = products
+                products = products.Where(p => p.ProductName.Contains(query));
+            }
+
+            products = sort switch
+            {
+                "name_asc" => products.OrderBy(p => p.ProductName),
+                "name_desc" => products.OrderByDescending(p => p.ProductName),
+                "price_asc" => products.OrderBy(p => p.Price),
+                "price_desc" => products.OrderByDescending(p => p.Price),
+                _ => products.OrderByDescending(p => p.ProductID) // или тво€ логика Ђпопул€рныхї
             };
 
-            return View(vm);
+            var model = new HomeIndexViewModel
+            {
+                Products = products.ToList()
+            };
+
+            return View(model);
         }
+
+
     }
 
 }

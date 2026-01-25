@@ -4,19 +4,19 @@
 @{
     ViewData["Title"] = "Автомагазин — Главная";
     Layout = "_Layout";
+    var currentSort = Context.Request.Query["sort"].ToString();
+    var currentQuery = Context.Request.Query["query"].ToString();
 }
 
 <section class="container mt-4">
 
     <h2 class="mb-3">Популярные товары</h2>
-    
-    
 
     <div class="d-flex justify-content-between align-items-center mb-3">
 
         <form method="get"
-              asp-controller="Products"
-              asp-action="Search"
+              asp-controller="Home"
+              asp-action="Index"
               class="d-flex"
               style="max-width: 350px;">
 
@@ -24,36 +24,77 @@
                    name="query"
                    class="form-control me-2"
                    placeholder="Поиск по названию..."
-                   value="@Context.Request.Query["query"]" />
+                   value="@currentQuery" />
+
+            <input type="hidden" name="sort" value="@currentSort" />
 
             <button type="submit" class="btn btn-primary">
                 Найти
             </button>
         </form>
+
+        <form method="get"
+              asp-controller="Home"
+              asp-action="Index"
+              class="d-flex align-items-center">
+
+            <input type="hidden" name="query" value="@currentQuery" />
+
+            <label class="me-2 mb-0" for="sortSelect">Сортировать:</label>
+            <select id="sortSelect"
+                    name="sort"
+                    class="form-select"
+                    onchange="this.form.submit()">
+
+                <option value="">По умолчанию</option>
+
+                <option value="name_asc"
+                        selected="@(currentSort == "name_asc" ? "selected" : null)">
+                    Название (А‑Я)
+                </option>
+
+                <option value="name_desc"
+                        selected="@(currentSort == "name_desc" ? "selected" : null)">
+                    Название (Я‑А)
+                </option>
+
+                <option value="price_asc"
+                        selected="@(currentSort == "price_asc" ? "selected" : null)">
+                    Цена (возр.)
+                </option>
+
+                <option value="price_desc"
+                        selected="@(currentSort == "price_desc" ? "selected" : null)">
+                    Цена (убыв.)
+                </option>
+            </select>
+
+        </form>
     </div>
-
-
 
     <div class="products-grid">
         @foreach (var p in Model.Products)
         {
             <article class="product-card">
                 <div class="thumb">
-                    
-                    @* <a href="/Products/Details/@p.ProductID"> *@
-                    <a asp-controller="Products" asp-action="Details" asp-route-productId="@p.ProductID" asp-route-id="@p.ProductID">
-                        <img src="@(String.IsNullOrEmpty(@ImageHelper.BytesToBase64(p.ImageData)) ? "/images/placeholder.png" : $"data:image/jpeg;base64,{Convert.ToBase64String(p.ImageData)}")" )" alt="@p.ProductName" />
+                    <a asp-controller="Products"
+                       asp-action="Details"
+                       asp-route-productId="@p.ProductID"
+                       asp-route-id="@p.ProductID">
+                        <img src="@(String.IsNullOrEmpty(ImageHelper.BytesToBase64(p.ImageData))
+                                    ? "/images/placeholder.png"
+                                    : $"data:image/jpeg;base64,{Convert.ToBase64String(p.ImageData)}")"
+                             alt="@p.ProductName" />
                     </a>
                 </div>
 
                 <div class="card-body">
                     <div class="product-title">@p.ProductName</div>
                     <div class="meta">Производитель: @p.Manufacturer</div>
-                    <div class="meta">Категория: @CategoryControllerMapper.GetRussianName(@p.Category.CategoryName)</div>
+                    <div class="meta">Категория: @CategoryControllerMapper.GetRussianName(p.Category.CategoryName)</div>
 
                     <div class="d-flex align-items-center justify-content-between mt-2">
-                        <div class="price">@String.Format("{0:N0} руб.", p.Price)</div>
-
+                        <div class="price">@String.Format("{0} руб.", p.Price)</div>
                     </div>
 
                     <div class="card-actions mt-3">
@@ -69,7 +110,6 @@
                             В корзину
                         </button>
                     </div>
-
                 </div>
             </article>
         }
